@@ -7,4 +7,20 @@ services:
     container_name: calendar_backend
     volumes:
       - "./:/calendar_backend/"
-
+    environment:
+      - "GOPATH=/calendar_backend"
+    depends_on:
+          - mysql  
+  mysql:
+    build: ./db/
+    ports:
+      - "3003:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      GOROOT: /golang_calendar
+      TZ: "Asia/Tokyo"
+    container_name: calendar_mysql
+    hostname: calendar_mysql
+    volumes:
+      - "./db/data:/var/lib/mysql"
+      - "./db/init:/docker-entrypoint-initdb.d"
