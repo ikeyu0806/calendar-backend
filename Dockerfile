@@ -6,5 +6,8 @@ WORKDIR /calendar_backend
 
 ADD ./ /calendar_backend
 
-CMD ["go", "build"]
-CMD ["go", "run", "./main.go"]
+RUN go get -u bitbucket.org/liamstask/goose/cmd/goose
+
+RUN go build
+
+CMD go run ./main.go
