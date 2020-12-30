@@ -36,5 +36,8 @@ func gormConnectTest() () {
 }
 
 func main() {
-	gormConnectTest()
+	for {
+		
+	}
+	// gormConnectTest()
 }
