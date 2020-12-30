@@ -6,7 +6,9 @@ WORKDIR /calendar_backend
 
 ADD ./ /calendar_backend
 
-RUN go get -u bitbucket.org/liamstask/goose/cmd/goose
+RUN  go get -u bitbucket.org/liamstask/goose/cmd/goose \
+  && go get -u gorm.io/gorm \
+  && go get -u gorm.io/driver/mysql
 
 RUN go build
 
