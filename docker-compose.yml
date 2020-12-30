@@ -10,7 +10,7 @@ services:
     environment:
       - "GOPATH=/calendar_backend"
     depends_on:
-          - mysql  
+      - mysql  
   mysql:
     build: ./db/
     ports:

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -8,7 +9,7 @@ import (
 
 type Schedule struct {
   gorm.Model
-	UserId int `json:"movie_id"`
+	UserId int
 	StartAt time.Time
 	EndAt time.Time
 }
@@ -18,13 +19,22 @@ var (
   err error
 )
 
-func main() {
-	dsn := "root:pass@tcp(localhost:3306)/calendar?charset=utf8&parseTime=True&loc=Local"
+
+func gormConnectTest() () {
+	dsn := "root:pass@tcp(mysql:3306)/calendar?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-	s := Schedule{UserId: 1, StartAt: time.Now(), EndAt: time.Now()}
-
 	if err != nil {
-		db.Create(&s)
+		panic(err.Error())
 	}
+
+	schedule := Schedule{UserId: 1, StartAt: time.Now(), EndAt: time.Now()}
+
+	result := db.Create(&schedule)
+
+	log.Println(result.Error)
+}
+
+func main() {
+	gormConnectTest()
 }
