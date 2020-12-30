@@ -7,8 +7,6 @@ services:
     container_name: calendar_backend
     volumes:
       - "./:/calendar_backend/"
-    environment:
-      - "GOPATH=/calendar_backend"
     depends_on:
       - mysql  
   mysql:
