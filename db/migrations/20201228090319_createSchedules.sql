@@ -6,6 +6,8 @@ CREATE TABLE schedules (
     user_id integer,
     start_at datetime,
     end_at datetime,
+    title  varchar(255),
+    content  varchar(255),
     created_at datetime,
     updated_at datetime,
     deleted_at datetime,

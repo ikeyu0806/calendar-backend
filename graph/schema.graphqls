@@ -14,6 +14,13 @@ type User {
   name: String!
 }
 
+type Schedule {
+  id: ID!
+  UserId int
+	StartAt String
+	EndAt String
+}
+
 type Query {
   todos: [Todo!]!
 }
