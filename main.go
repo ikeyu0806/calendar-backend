@@ -1,15 +1,11 @@
 package main
 
 import (
-	"log"
-
-)
-
-import (
 	"calendar-backend/graph"
 	"calendar-backend/graph/generated"
 	"net/http"
 	"os"
+	"log"
 
 	"time"
 	"gorm.io/driver/mysql"
@@ -32,7 +28,6 @@ var (
   db  *gorm.DB
   err error
 )
-
 
 func gormConnectTest() () {
 	dsn := "root:pass@tcp(mysql:3306)/calendar?charset=utf8&parseTime=True&loc=Local"
