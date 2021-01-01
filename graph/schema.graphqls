@@ -17,6 +17,7 @@ type User {
 }
 
 type Schedule {
+  id: Int
   userId: Int
   title: String
   content: String
@@ -28,7 +29,7 @@ type Schedule {
 type Query {
   todos: [Todo!]!
   schedules: [Schedule]
-  users: [User8]
+  users: [User]
 }
 
 input NewTodo {
