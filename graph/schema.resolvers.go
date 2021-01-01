@@ -42,7 +42,10 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 }
 
 func (r *queryResolver) Schedules(ctx context.Context) ([]*model.Schedule, error) {
-	return r.schedules, nil
+	var schedules []*model.Schedule
+	db, err = infrastructure.GetDB()
+	db.Find(&schedules)
+	return schedules, nil
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
