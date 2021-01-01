@@ -1,3 +1,0 @@
-development:
-    driver: mymysql
-    open: tcp:calendar_mysql:3306*calendar/root/pass
