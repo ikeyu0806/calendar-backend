@@ -12,17 +12,23 @@ type Todo {
 type User {
   id: ID!
   name: String!
+  password: String!
+  email: String
 }
 
 type Schedule {
-  id: ID!
-  UserId int
-	StartAt String
-	EndAt String
+  userId: Int
+  title: String
+  content: String
+  memo: String
+	StartAt: String
+	EndAt: String
 }
 
 type Query {
   todos: [Todo!]!
+  schedules: [Schedule]
+  users: [User8]
 }
 
 input NewTodo {
@@ -30,6 +36,16 @@ input NewTodo {
   userId: String!
 }
 
+input NewSchedule {
+  userId: Int
+  title: String
+  content: String
+  memo: String
+	StartAt: String
+	EndAt: String
+}
+
 type Mutation {
   createTodo(input: NewTodo!): Todo!
+  createSchedule(input: NewSchedule!): Schedule!
 }

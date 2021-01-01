@@ -12,7 +12,7 @@ var (
   err error
 )
 
-func Store() {
+func StoreTest() {
 	db, err = infrastructure.GetDB()
 	schedule := domain.Schedule{UserId: 1, StartAt: time.Now(), EndAt: time.Now()}
 

@@ -2,9 +2,27 @@
 
 package model
 
+type NewSchedule struct {
+	UserID  *int    `json:"userId"`
+	Title   *string `json:"title"`
+	Content *string `json:"content"`
+	Memo    *string `json:"memo"`
+	StartAt *string `json:"StartAt"`
+	EndAt   *string `json:"EndAt"`
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`
+}
+
+type Schedule struct {
+	UserID  *int    `json:"userId"`
+	Title   *string `json:"title"`
+	Content *string `json:"content"`
+	Memo    *string `json:"memo"`
+	StartAt *string `json:"StartAt"`
+	EndAt   *string `json:"EndAt"`
 }
 
 type Todo struct {
@@ -15,6 +33,8 @@ type Todo struct {
 }
 
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID       string  `json:"id"`
+	Name     string  `json:"name"`
+	Password string  `json:"password"`
+	Email    *string `json:"email"`
 }
