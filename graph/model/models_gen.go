@@ -7,8 +7,8 @@ type NewSchedule struct {
 	Title   *string `json:"title"`
 	Content *string `json:"content"`
 	Memo    *string `json:"memo"`
-	StartAt *string `json:"StartAt"`
-	EndAt   *string `json:"EndAt"`
+	StartAt *string `json:"start_at"`
+	EndAt   *string `json:"end_at"`
 }
 
 type NewTodo struct {
@@ -22,8 +22,8 @@ type Schedule struct {
 	Title   *string `json:"title"`
 	Content *string `json:"content"`
 	Memo    *string `json:"memo"`
-	StartAt *string `json:"StartAt"`
-	EndAt   *string `json:"EndAt"`
+	StartAt *string `json:"start_at"`
+	EndAt   *string `json:"end_at"`
 }
 
 type Todo struct {

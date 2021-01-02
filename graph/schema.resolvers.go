@@ -29,6 +29,8 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 		Title:   input.Title,
 		Content: input.Content,
 		Memo:    input.Memo,
+		StartAt: input.StartAt,
+		EndAt:   input.EndAt,
 	}
 	db, err = infrastructure.GetDB()
 
@@ -42,7 +44,10 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 }
 
 func (r *queryResolver) Schedules(ctx context.Context) ([]*model.Schedule, error) {
-	return r.schedules, nil
+	var schedules []*model.Schedule
+	db, err = infrastructure.GetDB()
+	db.Find(&schedules)
+	return schedules, nil
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
