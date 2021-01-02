@@ -22,8 +22,8 @@ type Schedule {
   title: String
   content: String
   memo: String
-	StartAt: String
-	EndAt: String
+	start_at: String
+	end_at: String
 }
 
 type Query {
@@ -42,8 +42,8 @@ input NewSchedule {
   title: String
   content: String
   memo: String
-	StartAt: String
-	EndAt: String
+	start_at: String
+	end_at: String
 }
 
 type Mutation {

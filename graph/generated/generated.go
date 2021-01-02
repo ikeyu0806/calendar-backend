@@ -156,7 +156,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Schedule.Content(childComplexity), true
 
-	case "Schedule.EndAt":
+	case "Schedule.end_at":
 		if e.complexity.Schedule.EndAt == nil {
 			break
 		}
@@ -177,7 +177,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Schedule.Memo(childComplexity), true
 
-	case "Schedule.StartAt":
+	case "Schedule.start_at":
 		if e.complexity.Schedule.StartAt == nil {
 			break
 		}
@@ -342,8 +342,8 @@ type Schedule {
   title: String
   content: String
   memo: String
-	StartAt: String
-	EndAt: String
+	start_at: String
+	end_at: String
 }
 
 type Query {
@@ -362,8 +362,8 @@ input NewSchedule {
   title: String
   content: String
   memo: String
-	StartAt: String
-	EndAt: String
+	start_at: String
+	end_at: String
 }
 
 type Mutation {
@@ -875,7 +875,7 @@ func (ec *executionContext) _Schedule_memo(ctx context.Context, field graphql.Co
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Schedule_StartAt(ctx context.Context, field graphql.CollectedField, obj *model.Schedule) (ret graphql.Marshaler) {
+func (ec *executionContext) _Schedule_start_at(ctx context.Context, field graphql.CollectedField, obj *model.Schedule) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -907,7 +907,7 @@ func (ec *executionContext) _Schedule_StartAt(ctx context.Context, field graphql
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Schedule_EndAt(ctx context.Context, field graphql.CollectedField, obj *model.Schedule) (ret graphql.Marshaler) {
+func (ec *executionContext) _Schedule_end_at(ctx context.Context, field graphql.CollectedField, obj *model.Schedule) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -2341,18 +2341,18 @@ func (ec *executionContext) unmarshalInputNewSchedule(ctx context.Context, obj i
 			if err != nil {
 				return it, err
 			}
-		case "StartAt":
+		case "start_at":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("StartAt"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("start_at"))
 			it.StartAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "EndAt":
+		case "end_at":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("EndAt"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("end_at"))
 			it.EndAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
@@ -2522,10 +2522,10 @@ func (ec *executionContext) _Schedule(ctx context.Context, sel ast.SelectionSet,
 			out.Values[i] = ec._Schedule_content(ctx, field, obj)
 		case "memo":
 			out.Values[i] = ec._Schedule_memo(ctx, field, obj)
-		case "StartAt":
-			out.Values[i] = ec._Schedule_StartAt(ctx, field, obj)
-		case "EndAt":
-			out.Values[i] = ec._Schedule_EndAt(ctx, field, obj)
+		case "start_at":
+			out.Values[i] = ec._Schedule_start_at(ctx, field, obj)
+		case "end_at":
+			out.Values[i] = ec._Schedule_end_at(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

@@ -29,6 +29,8 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 		Title:   input.Title,
 		Content: input.Content,
 		Memo:    input.Memo,
+		StartAt: input.StartAt,
+		EndAt:   input.EndAt,
 	}
 	db, err = infrastructure.GetDB()
 
