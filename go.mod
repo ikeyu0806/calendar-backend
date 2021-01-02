@@ -8,6 +8,7 @@ require (
 	github.com/kylelemons/go-gypsy v1.0.0 // indirect
 	github.com/lib/pq v1.9.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.6 // indirect
+	github.com/rs/cors v1.7.0
 	github.com/vektah/gqlparser/v2 v2.1.0
 	github.com/ziutek/mymysql v1.5.4 // indirect
 	gorm.io/driver/mysql v1.0.3
