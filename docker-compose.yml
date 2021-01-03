@@ -10,7 +10,7 @@ services:
     depends_on:
       - mysql  
   mysql:
-    build: ./db/
+    build: ./infrastructure/db/
     ports:
       - "3003:3306"
     environment:
@@ -20,5 +20,5 @@ services:
     container_name: calendar_mysql
     hostname: calendar_mysql
     volumes:
-      - "./db/data:/var/lib/mysql"
-      - "./db/init:/docker-entrypoint-initdb.d"
+      - "./infrastructure/db/data:/var/lib/mysql"
+      - "./infrastructure/db/initdb.d:/docker-entrypoint-initdb.d"
