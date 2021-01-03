@@ -1,4 +1,4 @@
 development:
     dialect: mysql
-    dir: db/migrations
+    dir: infrastructure/db/migrations
     datasource: root:pass@tcp(mysql:3306)/calendar?charset=utf8&parseTime=True&loc=Local
