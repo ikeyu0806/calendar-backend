@@ -9,19 +9,12 @@ import (
 	"calendar-backend/infrastructure"
 	"context"
 	"fmt"
-	"math/rand"
 
 	"gorm.io/gorm"
 )
 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	todo := &model.Todo{
-		Text: input.Text,
-		ID:   fmt.Sprintf("T%d", rand.Int()),
-		User: &model.User{ID: input.UserID, Name: "user " + input.UserID},
-	}
-	r.todos = append(r.todos, todo)
-	return todo, nil
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSchedule) (*model.Schedule, error) {
@@ -37,6 +30,19 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 	db.Create(&schedule)
 
 	return schedule, nil
+}
+
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+	user := &model.User{
+		Name:     input.Name,
+		Password: input.Password,
+		Email:    input.Email,
+	}
+	db, err = infrastructure.GetDB()
+
+	db.Create(&user)
+
+	return user, nil
 }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {

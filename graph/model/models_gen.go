@@ -16,6 +16,12 @@ type NewTodo struct {
 	UserID string `json:"userId"`
 }
 
+type NewUser struct {
+	Name     *string `json:"name"`
+	Password *string `json:"password"`
+	Email    *string `json:"email"`
+}
+
 type Schedule struct {
 	ID      *int    `json:"id"`
 	UserID  *int    `json:"userId"`
@@ -34,8 +40,8 @@ type Todo struct {
 }
 
 type User struct {
-	ID       string  `json:"id"`
-	Name     string  `json:"name"`
-	Password string  `json:"password"`
+	ID       *int    `json:"id"`
+	Name     *string `json:"name"`
+	Password *string `json:"password"`
 	Email    *string `json:"email"`
 }

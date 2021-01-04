@@ -10,9 +10,9 @@ type Todo {
 }
 
 type User {
-  id: ID!
-  name: String!
-  password: String!
+  id: Int
+  name: String
+  password: String
   email: String
 }
 
@@ -46,7 +46,14 @@ input NewSchedule {
 	end_at: String
 }
 
+input NewUser {
+  name: String
+  password: String
+  email: String
+}
+
 type Mutation {
   createTodo(input: NewTodo!): Todo!
   createSchedule(input: NewSchedule!): Schedule!
+  createUser(input: NewUser!): User!
 }
