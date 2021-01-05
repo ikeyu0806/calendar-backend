@@ -10,12 +10,9 @@ import (
 	"context"
 	"fmt"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
-
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented"))
-}
 
 func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSchedule) (*model.Schedule, error) {
 	schedule := &model.Schedule{
@@ -33,20 +30,27 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 }
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+	input_password := input.Password
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(*input_password), bcrypt.DefaultCost)
+
+	password := string(hash)
+
 	user := &model.User{
 		Name:     input.Name,
-		Password: input.Password,
+		Password: &password,
 		Email:    input.Email,
 	}
+
+	if err != nil {
+		return user, err
+	}
+
 	db, err = infrastructure.GetDB()
 
 	db.Create(&user)
 
 	return user, nil
-}
-
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	return r.todos, nil
 }
 
 func (r *queryResolver) Schedules(ctx context.Context) ([]*model.Schedule, error) {
