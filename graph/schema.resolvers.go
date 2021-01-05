@@ -9,7 +9,9 @@ import (
 	"calendar-backend/infrastructure"
 	"context"
 	"fmt"
+	"time"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -29,7 +31,9 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 	return schedule, nil
 }
 
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.UserToken, error) {
+	secret := "safgvrebwabrq"
+
 	input_password := input.Password
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(*input_password), bcrypt.DefaultCost)
@@ -43,14 +47,31 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	}
 
 	if err != nil {
-		return user, err
+		token := ""
+		userToken := &model.UserToken{
+			Token: &token,
+		}
+		return userToken, err
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"admin": true,
+		"name":  "ikegaya",
+		"iat":   time.Now(),
+		"exp":   time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(secret))
+
+	userToken := &model.UserToken{
+		Token: &tokenString,
 	}
 
 	db, err = infrastructure.GetDB()
 
 	db.Create(&user)
 
-	return user, nil
+	return userToken, nil
 }
 
 func (r *queryResolver) Schedules(ctx context.Context) ([]*model.Schedule, error) {
