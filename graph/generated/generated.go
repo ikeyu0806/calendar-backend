@@ -70,6 +70,8 @@ type ComplexityRoot struct {
 	}
 
 	UserToken struct {
+		ID    func(childComplexity int) int
+		Name  func(childComplexity int) int
 		Token func(childComplexity int) int
 	}
 }
@@ -213,6 +215,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Password(childComplexity), true
 
+	case "UserToken.id":
+		if e.complexity.UserToken.ID == nil {
+			break
+		}
+
+		return e.complexity.UserToken.ID(childComplexity), true
+
+	case "UserToken.name":
+		if e.complexity.UserToken.Name == nil {
+			break
+		}
+
+		return e.complexity.UserToken.Name(childComplexity), true
+
 	case "UserToken.token":
 		if e.complexity.UserToken.Token == nil {
 			break
@@ -296,6 +312,8 @@ type User {
 }
 
 type UserToken {
+  id: Int
+  name: String
   token: String
 }
 
@@ -982,6 +1000,70 @@ func (ec *executionContext) _User_email(ctx context.Context, field graphql.Colle
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _UserToken_id(ctx context.Context, field graphql.CollectedField, obj *model.UserToken) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "UserToken",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _UserToken_name(ctx context.Context, field graphql.CollectedField, obj *model.UserToken) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "UserToken",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2383,6 +2465,10 @@ func (ec *executionContext) _UserToken(ctx context.Context, sel ast.SelectionSet
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("UserToken")
+		case "id":
+			out.Values[i] = ec._UserToken_id(ctx, field, obj)
+		case "name":
+			out.Values[i] = ec._UserToken_name(ctx, field, obj)
 		case "token":
 			out.Values[i] = ec._UserToken_token(ctx, field, obj)
 		default:

@@ -10,6 +10,8 @@ type User {
 }
 
 type UserToken {
+  id: Int
+  name: String
   token: String
 }
 

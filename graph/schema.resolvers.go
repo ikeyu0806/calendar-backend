@@ -46,6 +46,10 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 		Email:    input.Email,
 	}
 
+	db, err = infrastructure.GetDB()
+
+	db.Create(&user)
+
 	if err != nil {
 		token := ""
 		userToken := &model.UserToken{
@@ -64,12 +68,10 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	tokenString, err := token.SignedString([]byte(secret))
 
 	userToken := &model.UserToken{
+		ID:    user.ID,
+		Name:  user.Name,
 		Token: &tokenString,
 	}
-
-	db, err = infrastructure.GetDB()
-
-	db.Create(&user)
 
 	return userToken, nil
 }

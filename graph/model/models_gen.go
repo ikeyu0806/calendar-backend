@@ -35,5 +35,7 @@ type User struct {
 }
 
 type UserToken struct {
+	ID    *int    `json:"id"`
+	Name  *string `json:"name"`
 	Token *string `json:"token"`
 }
