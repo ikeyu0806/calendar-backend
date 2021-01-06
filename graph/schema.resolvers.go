@@ -48,14 +48,8 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 
 	db, err = infrastructure.GetDB()
 
-	db.Create(&user)
-
-	if err != nil {
-		token := ""
-		userToken := &model.UserToken{
-			Token: &token,
-		}
-		return userToken, err
+	if err = db.Create(&user).Error; err != nil {
+		return nil, err
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
