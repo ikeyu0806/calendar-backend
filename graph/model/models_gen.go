@@ -2,6 +2,11 @@
 
 package model
 
+type LoginUser struct {
+	Name     *string `json:"name"`
+	Password *string `json:"password"`
+}
+
 type NewSchedule struct {
 	UserID  *int    `json:"userId"`
 	Title   *string `json:"title"`

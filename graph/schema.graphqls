@@ -45,7 +45,13 @@ input NewUser {
   email: String
 }
 
+input LoginUser {
+  name: String
+  password: String
+}
+
 type Mutation {
   createSchedule(input: NewSchedule!): Schedule!
   createUser(input: NewUser!): UserToken!
+  loginUser(input: LoginUser!): UserToken!
 }
