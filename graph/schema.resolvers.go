@@ -9,20 +9,12 @@ import (
 	"calendar-backend/infrastructure"
 	"context"
 	"fmt"
-	"math/rand"
+	"time"
 
+	jwt "github.com/dgrijalva/jwt-go"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
-
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	todo := &model.Todo{
-		Text: input.Text,
-		ID:   fmt.Sprintf("T%d", rand.Int()),
-		User: &model.User{ID: input.UserID, Name: "user " + input.UserID},
-	}
-	r.todos = append(r.todos, todo)
-	return todo, nil
-}
 
 func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSchedule) (*model.Schedule, error) {
 	schedule := &model.Schedule{
@@ -39,8 +31,83 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 	return schedule, nil
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	return r.todos, nil
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.UserToken, error) {
+	secret := "safgvrebwabrq"
+
+	input_password := input.Password
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(*input_password), bcrypt.DefaultCost)
+
+	password := string(hash)
+
+	user := &model.User{
+		Name:     input.Name,
+		Password: &password,
+		Email:    input.Email,
+	}
+
+	db, err = infrastructure.GetDB()
+
+	if err = db.Create(&user).Error; err != nil {
+		return nil, err
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"admin": true,
+		"name":  "ikegaya",
+		"iat":   time.Now(),
+		"exp":   time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	tokenString, err := token.SignedString([]byte(secret))
+
+	userToken := &model.UserToken{
+		ID:    user.ID,
+		Name:  user.Name,
+		Token: &tokenString,
+	}
+
+	return userToken, nil
+}
+
+func (r *mutationResolver) LoginUser(ctx context.Context, input model.LoginUser) (*model.UserToken, error) {
+	var user model.User
+	db, err = infrastructure.GetDB()
+
+	if err = db.Where("name = ?", input.Name).First(&user).Error; err != nil {
+		return nil, err
+	}
+
+	var input_password string
+	input_password = *input.Password
+
+	registerd_password := user.Password
+
+	match_pass := bcrypt.CompareHashAndPassword([]byte(*registerd_password), []byte(input_password)) == nil
+
+	if (*user.Name == *input.Name && match_pass) {
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"admin": true,
+			"name":  "ikegaya",
+			"iat":   time.Now(),
+			"exp":   time.Now().Add(time.Hour * 24).Unix(),
+		})
+		secret := "safgvrebwabrq"
+		tokenString, err := token.SignedString([]byte(secret))
+
+		if err != nil {
+			return nil, err
+		}
+
+		userToken := &model.UserToken{
+			ID:    user.ID,
+			Name:  user.Name,
+			Token: &tokenString,
+		}
+
+		return userToken, nil
+	}
+	return nil, err
 }
 
 func (r *queryResolver) Schedules(ctx context.Context) ([]*model.Schedule, error) {

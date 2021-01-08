@@ -2,18 +2,17 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+type User {
+  id: Int
+  name: String
+  password: String
+  email: String
 }
 
-type User {
-  id: ID!
-  name: String!
-  password: String!
-  email: String
+type UserToken {
+  id: Int
+  name: String
+  token: String
 }
 
 type Schedule {
@@ -27,14 +26,8 @@ type Schedule {
 }
 
 type Query {
-  todos: [Todo!]!
   schedules: [Schedule]
   users: [User]
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
 }
 
 input NewSchedule {
@@ -46,7 +39,19 @@ input NewSchedule {
 	end_at: String
 }
 
+input NewUser {
+  name: String
+  password: String
+  email: String
+}
+
+input LoginUser {
+  name: String
+  password: String
+}
+
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
   createSchedule(input: NewSchedule!): Schedule!
+  createUser(input: NewUser!): UserToken!
+  loginUser(input: LoginUser!): UserToken!
 }

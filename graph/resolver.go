@@ -9,6 +9,6 @@ import (
 )
 type Resolver struct{
 	DB *gorm.DB
-	todos []*model.Todo
 	schedules []*model.Schedule
+	users []*model.User
 }
