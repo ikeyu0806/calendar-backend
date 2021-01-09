@@ -23,10 +23,13 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 		Memo:    input.Memo,
 		StartAt: input.StartAt,
 		EndAt:   input.EndAt,
+		UserID:  input.UserID,
 	}
 	db, err = infrastructure.GetDB()
 
-	db.Create(&schedule)
+	if err = db.Create(&schedule).Error; err != nil {
+		return nil, err
+	}
 
 	return schedule, nil
 }
@@ -85,7 +88,7 @@ func (r *mutationResolver) LoginUser(ctx context.Context, input model.LoginUser)
 
 	match_pass := bcrypt.CompareHashAndPassword([]byte(*registerd_password), []byte(input_password)) == nil
 
-	if (*user.Name == *input.Name && match_pass) {
+	if *user.Name == *input.Name && match_pass {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 			"admin": true,
 			"name":  "ikegaya",
@@ -110,10 +113,13 @@ func (r *mutationResolver) LoginUser(ctx context.Context, input model.LoginUser)
 	return nil, err
 }
 
-func (r *queryResolver) Schedules(ctx context.Context) ([]*model.Schedule, error) {
+func (r *queryResolver) Schedules(ctx context.Context, userID *int) ([]*model.Schedule, error) {
+	fmt.Println("Schedules is called")
 	var schedules []*model.Schedule
 	db, err = infrastructure.GetDB()
-	db.Find(&schedules)
+	if err = db.Where("user_id = ?", userID).Find(&schedules).Error; err != nil {
+		return nil, err
+	}
 	return schedules, nil
 }
 
