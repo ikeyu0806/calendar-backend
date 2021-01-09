@@ -7,6 +7,7 @@ import (
 	"calendar-backend/graph/model"
 	"gorm.io/gorm"
 )
+// Resolver GraphQLのResolver定義
 type Resolver struct{
 	DB *gorm.DB
 	schedules []*model.Schedule
