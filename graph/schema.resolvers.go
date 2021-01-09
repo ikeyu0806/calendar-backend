@@ -117,7 +117,9 @@ func (r *queryResolver) Schedules(ctx context.Context, userID *int) ([]*model.Sc
 	fmt.Println("Schedules is called")
 	var schedules []*model.Schedule
 	db, err = infrastructure.GetDB()
-	db.Where("user_id = ?", userID).Find(&schedules)
+	if err = db.Where("user_id = ?", userID).Find(&schedules).Error; err != nil {
+		return nil, err
+	}
 	return schedules, nil
 }
 
