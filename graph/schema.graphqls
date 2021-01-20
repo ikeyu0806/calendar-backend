@@ -25,6 +25,12 @@ type Schedule {
 	end_at: String
 }
 
+type DeleteSchedule {
+  id: Int
+  msg: String
+  success: Boolean
+}
+
 type Query {
   schedules(userId: Int): [Schedule]
   users: [User]
@@ -52,6 +58,8 @@ input LoginUser {
 
 type Mutation {
   createSchedule(input: NewSchedule!): Schedule!
+  updateSchedule(input: NewSchedule!): Schedule!
+  deleteSchedule(scheduleId: Int): DeleteSchedule!
   createUser(input: NewUser!): UserToken!
   loginUser(input: LoginUser!): UserToken!
 }
