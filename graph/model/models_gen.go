@@ -2,12 +2,19 @@
 
 package model
 
+type DeleteSchedule struct {
+	ID      *int    `json:"id"`
+	Msg     *string `json:"msg"`
+	Success *bool   `json:"success"`
+}
+
 type LoginUser struct {
 	Name     *string `json:"name"`
 	Password *string `json:"password"`
 }
 
 type NewSchedule struct {
+	ID      *int    `json:"id"`
 	UserID  *int    `json:"userId"`
 	Title   *string `json:"title"`
 	Content *string `json:"content"`

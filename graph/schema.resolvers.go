@@ -34,6 +34,30 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 	return schedule, nil
 }
 
+func (r *mutationResolver) UpdateSchedule(ctx context.Context, input model.NewSchedule) (*model.Schedule, error) {
+	var schedule model.Schedule
+
+	db, err = infrastructure.GetDB()
+
+	if err = db.Where("id = ?", input.ID).First(&schedule).Updates(model.Schedule{Title: input.Title, Memo: input.Memo, Content: input.Content, StartAt: input.StartAt, EndAt: input.EndAt}).Error; err != nil {
+		return nil, err
+	}
+
+	return &schedule, err
+}
+
+func (r *mutationResolver) DeleteSchedule(ctx context.Context, scheduleID *int) (*model.DeleteSchedule, error) {
+	var schedule model.Schedule
+	db, err = infrastructure.GetDB()
+
+	if err = db.Delete(schedule, scheduleID).Error; err != nil {
+		return nil, err
+	}
+	m := "success"
+	t := true
+	return &model.DeleteSchedule{Msg: &m, Success: &t}, err
+}
+
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.UserToken, error) {
 	secret := "safgvrebwabrq"
 
