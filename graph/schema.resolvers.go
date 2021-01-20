@@ -35,7 +35,15 @@ func (r *mutationResolver) CreateSchedule(ctx context.Context, input model.NewSc
 }
 
 func (r *mutationResolver) UpdateSchedule(ctx context.Context, input model.NewSchedule) (*model.Schedule, error) {
-	panic(fmt.Errorf("not implemented"))
+	var schedule model.Schedule
+
+	db, err = infrastructure.GetDB()
+
+	if err = db.Where("id = ?", input.ID).First(&schedule).Updates(model.Schedule{Title: input.Title, Memo: input.Memo, Content: input.Content, StartAt: input.StartAt, EndAt: input.EndAt}).Error; err != nil {
+		return nil, err
+	}
+
+	return &schedule, err
 }
 
 func (r *mutationResolver) DeleteSchedule(ctx context.Context, scheduleID *int) (*model.DeleteSchedule, error) {

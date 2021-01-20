@@ -37,6 +37,7 @@ type Query {
 }
 
 input NewSchedule {
+  id: Int
   userId: Int
   title: String
   content: String

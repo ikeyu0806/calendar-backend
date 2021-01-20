@@ -14,6 +14,7 @@ type LoginUser struct {
 }
 
 type NewSchedule struct {
+	ID      *int    `json:"id"`
 	UserID  *int    `json:"userId"`
 	Title   *string `json:"title"`
 	Content *string `json:"content"`

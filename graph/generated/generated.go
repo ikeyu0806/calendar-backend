@@ -413,6 +413,7 @@ type Query {
 }
 
 input NewSchedule {
+  id: Int
   userId: Int
   title: String
   content: String
@@ -2607,6 +2608,14 @@ func (ec *executionContext) unmarshalInputNewSchedule(ctx context.Context, obj i
 
 	for k, v := range asMap {
 		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "userId":
 			var err error
 
