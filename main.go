@@ -3,9 +3,9 @@ package main
 import (
 	"calendar-backend/graph"
 	"calendar-backend/graph/generated"
+	"log"
 	"net/http"
 	"os"
-	"log"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -25,7 +25,7 @@ func main() {
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3001", "http://localhost:8080"},
+		AllowedOrigins:   []string{"http://localhost:3001", "http://localhost:8080", "https://vue-calendar-fhcoz0yla-ikeyu0806.vercel.app"},
 		AllowCredentials: true,
 	})
 	http.Handle("/query", c.Handler(srv))
