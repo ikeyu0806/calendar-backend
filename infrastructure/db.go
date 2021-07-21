@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"log"
 	"os"
 
 	"gorm.io/driver/mysql"
@@ -19,6 +20,8 @@ func GetDB() (*gorm.DB, error) {
 
 	if err != nil {
 		panic(err.Error())
+	} else {
+		log.Print("sucess DB connect")
 	}
 
 	return db, err
