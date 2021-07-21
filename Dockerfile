@@ -13,4 +13,6 @@ RUN go get -v github.com/rubenv/sql-migrate/...
 
 RUN go build
 
+ENV DATA_SOURCE root:pass@tcp(mysql:3306)/calendar?charset=utf8&parseTime=True&loc=Local
+
 CMD go run ./main.go
